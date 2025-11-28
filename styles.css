@@ -183,6 +183,12 @@ button[type="submit"]:active {
     font-size: 1.5rem;
 }
 
+.result-secondary {
+    color: var(--text-light);
+    font-size: 1rem;
+    font-weight: normal;
+}
+
 /* Footer */
 footer {
     background-color: var(--bg-color);
@@ -228,6 +234,10 @@ footer a:hover {
     
     .result-text.highlight {
         font-size: 1.25rem;
+    }
+    
+    .result-secondary {
+        font-size: 0.875rem;
     }
 }
 

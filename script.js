@@ -1,6 +1,7 @@
 // Constantes
 const MAX_WEIGHT = 300;
 const MIN_WEIGHT = 0.1;
+const ML_PER_CUP = 200; // 1 xícara = 200ml
 
 // Elementos DOM
 const calculatorForm = document.getElementById('calculator-form');
@@ -79,14 +80,75 @@ function calculateDosage(weight) {
 }
 
 /**
- * Formata o resultado para exibição
+ * Converte mililitros para xícaras, arredondando para cima para múltiplos de 0.5
+ * @param {number} ml - Quantidade em mililitros
+ * @returns {number} Quantidade em xícaras (arredondada para cima para múltiplos de 0.5)
+ */
+function mlToCups(ml) {
+    const cups = ml / ML_PER_CUP;
+    // Arredonda para cima para o próximo múltiplo de 0.5
+    return Math.ceil(cups * 2) / 2;
+}
+
+/**
+ * Formata o número de xícaras em texto em português
+ * @param {number} cups - Número de xícaras (deve ser múltiplo de 0.5)
+ * @returns {string} Texto formatado em português
+ */
+function formatCups(cups) {
+    const wholeCups = Math.floor(cups);
+    const hasHalf = cups % 1 === 0.5;
+    
+    // Array com números por extenso
+    const numbers = [
+        'zero', 'uma', 'duas', 'três', 'quatro', 'cinco', 
+        'seis', 'sete', 'oito', 'nove', 'dez'
+    ];
+    
+    let result = '';
+    
+    if (wholeCups === 0 && hasHalf) {
+        return 'meia xícara';
+    }
+    
+    if (wholeCups > 0) {
+        if (wholeCups <= 10) {
+            result = numbers[wholeCups];
+        } else {
+            result = wholeCups.toString();
+        }
+        result += wholeCups === 1 ? ' xícara' : ' xícaras';
+    }
+    
+    if (hasHalf) {
+        if (wholeCups > 0) {
+            result += ' e meia';
+        } else {
+            result = 'meia xícara';
+        }
+    }
+    
+    return result;
+}
+
+/**
+ * Formata o resultado para exibição com xícaras como formato principal e ml como secundário
  * @param {number} dosage - Dosagem em ml
- * @returns {string} Texto formatado
+ * @returns {object} { cupsText: string, mlText: string } - Textos formatados para xícaras e ml
  */
 function formatResult(dosage) {
-    // Converte para string e remove zeros desnecessários
+    // Converte ml para xícaras
+    const cups = mlToCups(dosage);
+    const cupsText = formatCups(cups);
+    
+    // Formata ml mantendo 1 casa decimal
     const dosageStr = dosage.toFixed(1).replace(/\.0$/, '');
-    return `${dosageStr} ml de caldo de osso por dia`;
+    const mlText = `${dosageStr} ml`;
+    
+    return {
+        cupsText: `${cupsText} de caldo de osso por dia`,
+        mlText: mlText
+    };
 }
 
 /**
@@ -99,37 +161,43 @@ function displayResult(dosage, errorMessage = null, warningMessage = null) {
     // Remove classes anteriores
     resultText.classList.remove('success', 'error', 'highlight');
     resultContainer.classList.remove('hidden');
+    
+    // Limpa conteúdo anterior
+    resultText.textContent = '';
 
     if (errorMessage) {
         // Exibe erro
         resultText.textContent = errorMessage;
         resultText.classList.add('error');
-    } else if (warningMessage && dosage !== null) {
-        // Exibe resultado com aviso
-        const result = formatResult(dosage);
-        resultText.textContent = ''; // Limpa conteúdo anterior
-        
-        // Cria elemento de texto para o resultado
-        const resultSpan = document.createElement('span');
-        resultSpan.textContent = result;
-        resultText.appendChild(resultSpan);
-        
-        // Adiciona quebra de linha
-        resultText.appendChild(document.createElement('br'));
-        
-        // Cria elemento de aviso
-        const warningSmall = document.createElement('small');
-        warningSmall.textContent = warningMessage;
-        warningSmall.style.color = 'var(--text-light)';
-        warningSmall.style.fontSize = '0.875rem';
-        warningSmall.style.fontWeight = 'normal';
-        resultText.appendChild(warningSmall);
-        
-        resultText.classList.add('highlight');
     } else if (dosage !== null) {
-        // Exibe resultado normal
-        resultText.textContent = formatResult(dosage);
-        resultText.classList.add('success', 'highlight');
+        // Formata resultado com xícaras e ml
+        const formatted = formatResult(dosage);
+        
+        // Cria elemento principal com xícaras
+        const cupsSpan = document.createElement('span');
+        cupsSpan.textContent = formatted.cupsText;
+        resultText.appendChild(cupsSpan);
+        
+        // Adiciona espaço e ml como texto secundário
+        resultText.appendChild(document.createTextNode(' '));
+        const mlSpan = document.createElement('span');
+        mlSpan.className = 'result-secondary';
+        mlSpan.textContent = `(${formatted.mlText})`;
+        resultText.appendChild(mlSpan);
+        
+        // Adiciona aviso se houver
+        if (warningMessage) {
+            resultText.appendChild(document.createElement('br'));
+            const warningSmall = document.createElement('small');
+            warningSmall.textContent = warningMessage;
+            warningSmall.style.color = 'var(--text-light)';
+            warningSmall.style.fontSize = '0.875rem';
+            warningSmall.style.fontWeight = 'normal';
+            resultText.appendChild(warningSmall);
+            resultText.classList.add('highlight');
+        } else {
+            resultText.classList.add('success', 'highlight');
+        }
     }
 }
 
