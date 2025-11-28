@@ -184,6 +184,8 @@ button[type="submit"]:active {
 }
 
 .result-secondary {
+    display: block;
+    margin-top: 0.25rem;
     color: var(--text-light);
     font-size: 1rem;
     font-weight: normal;

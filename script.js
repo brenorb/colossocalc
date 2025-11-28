@@ -178,8 +178,7 @@ function displayResult(dosage, errorMessage = null, warningMessage = null) {
         cupsSpan.textContent = formatted.cupsText;
         resultText.appendChild(cupsSpan);
         
-        // Adiciona espaço e ml como texto secundário
-        resultText.appendChild(document.createTextNode(' '));
+        // Adiciona ml como texto secundário (display: block força quebra de linha)
         const mlSpan = document.createElement('span');
         mlSpan.className = 'result-secondary';
         mlSpan.textContent = `(${formatted.mlText})`;
@@ -187,12 +186,14 @@ function displayResult(dosage, errorMessage = null, warningMessage = null) {
         
         // Adiciona aviso se houver
         if (warningMessage) {
-            resultText.appendChild(document.createElement('br'));
             const warningSmall = document.createElement('small');
+            warningSmall.className = 'result-warning';
             warningSmall.textContent = warningMessage;
             warningSmall.style.color = 'var(--text-light)';
             warningSmall.style.fontSize = '0.875rem';
             warningSmall.style.fontWeight = 'normal';
+            warningSmall.style.display = 'block';
+            warningSmall.style.marginTop = '0.5rem';
             resultText.appendChild(warningSmall);
             resultText.classList.add('highlight');
         } else {
