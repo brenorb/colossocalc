@@ -120,8 +120,7 @@ main {
     color: var(--text-light);
 }
 
-button[type="submit"],
-#calculate-btn {
+button[type="submit"] {
     width: 100%;
     padding: 0.875rem 1.5rem;
     font-size: 1rem;
@@ -135,15 +134,13 @@ button[type="submit"],
     box-shadow: var(--shadow-md);
 }
 
-button[type="submit"]:hover,
-#calculate-btn:hover {
+button[type="submit"]:hover {
     background-color: var(--primary-dark);
     transform: translateY(-1px);
     box-shadow: var(--shadow-lg);
 }
 
-button[type="submit"]:active,
-#calculate-btn:active {
+button[type="submit"]:active {
     transform: translateY(0);
     box-shadow: var(--shadow);
 }

@@ -107,7 +107,24 @@ function displayResult(dosage, errorMessage = null, warningMessage = null) {
     } else if (warningMessage && dosage !== null) {
         // Exibe resultado com aviso
         const result = formatResult(dosage);
-        resultText.innerHTML = `${result}<br><small style="color: var(--text-light); font-size: 0.875rem; font-weight: normal;">${warningMessage}</small>`;
+        resultText.textContent = ''; // Limpa conteúdo anterior
+        
+        // Cria elemento de texto para o resultado
+        const resultSpan = document.createElement('span');
+        resultSpan.textContent = result;
+        resultText.appendChild(resultSpan);
+        
+        // Adiciona quebra de linha
+        resultText.appendChild(document.createElement('br'));
+        
+        // Cria elemento de aviso
+        const warningSmall = document.createElement('small');
+        warningSmall.textContent = warningMessage;
+        warningSmall.style.color = 'var(--text-light)';
+        warningSmall.style.fontSize = '0.875rem';
+        warningSmall.style.fontWeight = 'normal';
+        resultText.appendChild(warningSmall);
+        
         resultText.classList.add('highlight');
     } else if (dosage !== null) {
         // Exibe resultado normal
@@ -139,14 +156,6 @@ function handleCalculate(event) {
 
 // Event listeners
 calculatorForm.addEventListener('submit', handleCalculate);
-
-// Event listener para Enter no input (já coberto pelo submit do form, mas mantido para clareza)
-weightInput.addEventListener('keypress', (event) => {
-    if (event.key === 'Enter') {
-        event.preventDefault();
-        handleCalculate(event);
-    }
-});
 
 // Inicialização: esconde o resultado inicialmente
 resultContainer.classList.add('hidden');
