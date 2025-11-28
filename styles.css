@@ -1,0 +1,239 @@
+/* Reset básico e variáveis CSS */
+:root {
+    --primary-color: #DC2626;
+    --primary-dark: #B91C1C;
+    --text-color: #1F2937;
+    --text-light: #6B7280;
+    --bg-color: #FFFFFF;
+    --bg-light: #F9FAFB;
+    --border-color: #E5E7EB;
+    --error-color: #EF4444;
+    --success-color: #10B981;
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-light);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+header {
+    background-color: var(--bg-color);
+    padding: 1.5rem 1rem;
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+header h1 {
+    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* Main content */
+main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.calculator-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.calculator-card {
+    background-color: var(--bg-color);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.calculator-card h2 {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.subtitle {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Form */
+#calculator-form {
+    margin-bottom: 1.5rem;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    color: var(--text-color);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.input-group input::placeholder {
+    color: var(--text-light);
+}
+
+button[type="submit"],
+#calculate-btn {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--bg-color);
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-md);
+}
+
+button[type="submit"]:hover,
+#calculate-btn:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+}
+
+button[type="submit"]:active,
+#calculate-btn:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow);
+}
+
+/* Result container */
+.result-container {
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: var(--bg-light);
+    transition: all 0.3s ease;
+}
+
+.result-container.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.result-text {
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.result-text.success {
+    color: var(--success-color);
+}
+
+.result-text.error {
+    color: var(--error-color);
+}
+
+.result-text.highlight {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+/* Footer */
+footer {
+    background-color: var(--bg-color);
+    padding: 1.5rem 1rem;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.875rem;
+    border-top: 1px solid var(--border-color);
+}
+
+footer strong {
+    color: var(--primary-color);
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+    header h1 {
+        font-size: 1.75rem;
+    }
+    
+    .calculator-card {
+        padding: 1.5rem;
+    }
+    
+    .calculator-card h2 {
+        font-size: 1.25rem;
+    }
+    
+    .result-text {
+        font-size: 1.125rem;
+    }
+    
+    .result-text.highlight {
+        font-size: 1.25rem;
+    }
+}
+
+@media (min-width: 768px) {
+    header {
+        padding: 2rem 1rem;
+    }
+    
+    header h1 {
+        font-size: 2.25rem;
+    }
+    
+    main {
+        padding: 3rem 1rem;
+    }
+}
+

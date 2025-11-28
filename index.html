@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculadora de dosagem diária de caldo de osso baseada no peso corporal - Método Colosso">
+    <title>ColossoCalc - Calculadora de Caldo de Osso</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>ColossoCalc</h1>
+    </header>
+    
+    <main>
+        <div class="calculator-container">
+            <div class="calculator-card">
+                <h2>Calculadora de Dosagem</h2>
+                <p class="subtitle">Calcule a quantidade diária recomendada de caldo de osso</p>
+                
+                <form id="calculator-form">
+                    <div class="input-group">
+                        <label for="weight-input">Seu peso (kg)</label>
+                        <input 
+                            type="number" 
+                            id="weight-input" 
+                            name="weight" 
+                            placeholder="Ex: 70"
+                            min="0"
+                            step="0.1"
+                            required
+                        >
+                    </div>
+                    
+                    <button type="submit" id="calculate-btn">Calcular</button>
+                </form>
+                
+                <div id="result-container" class="result-container" aria-live="polite">
+                    <p id="result-text" class="result-text"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>Bônus do curso <strong>Método Colosso</strong> - Cozinha de Pedra</p>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
+

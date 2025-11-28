@@ -1,0 +1,8 @@
+---
+alwaysApply: true
+---
+- **Arquitetura**: Página estática single-page application (SPA)
+- **Lógica**: 100% client-side (JavaScript)
+- **Deploy**: Hospedagem estática (GitHub Pages)
+- **Design**: Inspirado no site do Método Colosso (https://metodocolosso.com.br/)
+- **Idioma**: Português (Brasil)
