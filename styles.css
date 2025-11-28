@@ -2,7 +2,7 @@
 :root {
     --primary-color: #DC2626;
     --primary-dark: #B91C1C;
-    --text-color: #1F2937;
+    --text-color: #333333;
     --text-light: #6B7280;
     --bg-color: #FFFFFF;
     --bg-light: #F9FAFB;
@@ -113,7 +113,7 @@ main {
 .input-group input:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+    box-shadow: 0 0 0 3px rgba(192, 76, 71, 0.1);
 }
 
 .input-group input::placeholder {
