@@ -23,7 +23,7 @@ A calculadora utiliza uma regra simples: **para cada 10kg de peso, são necessá
 
 - **Arquitetura**: Página estática single-page application (SPA)
 - **Lógica**: 100% client-side (JavaScript)
-- **Deploy**: Hospedagem estática (ex: Netlify, Vercel, GitHub Pages)
+- **Deploy**: Hospedagem estática (GitHub Pages)
 - **Design**: Inspirado no site do Método Colosso (https://metodocolosso.com.br/)
 - **Idioma**: Português (Brasil)
 
