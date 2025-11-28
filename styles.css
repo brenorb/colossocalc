@@ -197,6 +197,17 @@ footer strong {
     color: var(--primary-color);
 }
 
+footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+footer a:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
 /* Responsive design */
 @media (max-width: 640px) {
     header h1 {
