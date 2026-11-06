@@ -219,6 +219,10 @@ function handleCalculate(event) {
 
     const weightNum = parseFloat(weight);
     const dosage = calculateDosage(weightNum);
+    if (!Number.isFinite(dosage)) {
+        displayResult(null, 'Por favor, informe um número válido.');
+        return;
+    }
     
     displayResult(dosage, null, validation.warning || null);
 }

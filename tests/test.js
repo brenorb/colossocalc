@@ -5,114 +5,35 @@
 
 const assert = require('assert');
 
-// Constants (matching script.js)
-const ML_PER_CUP = 200;
-const MAX_WEIGHT = 300;
-const MIN_WEIGHT = 0.1;
+const { readFileSync } = require('node:fs');
+const path = require('node:path');
+const { runInNewContext } = require('node:vm');
 
-// Test functions (copied from script.js for testing)
-function mlToCups(ml) {
-    const cups = ml / ML_PER_CUP;
-    return Math.ceil(cups * 2) / 2;
-}
-
-function formatCups(cups) {
-    const wholeCups = Math.floor(cups);
-    const hasHalf = cups % 1 === 0.5;
-    
-    const numbers = [
-        'zero', 'uma', 'duas', 'três', 'quatro', 'cinco', 
-        'seis', 'sete', 'oito', 'nove', 'dez'
-    ];
-    
-    let result = '';
-    
-    if (wholeCups === 0 && hasHalf) {
-        return 'meia xícara';
-    }
-    
-    if (wholeCups > 0) {
-        if (wholeCups <= 10) {
-            result = numbers[wholeCups];
-        } else {
-            result = wholeCups.toString();
-        }
-        result += wholeCups === 1 ? ' xícara' : ' xícaras';
-    }
-    
-    if (hasHalf) {
-        if (wholeCups > 0) {
-            result += ' e meia';
-        } else {
-            result = 'meia xícara';
-        }
-    }
-    
-    return result;
-}
-
-function formatResult(dosage) {
-    const cups = mlToCups(dosage);
-    const cupsText = formatCups(cups);
-    
-    const dosageStr = dosage.toFixed(1).replace(/\.0$/, '');
-    const mlText = `${dosageStr} ml`;
-    
-    return {
-        cupsText: `${cupsText} de caldo de osso por dia`,
-        mlText: mlText
-    };
-}
-
-function calculateDosage(weight) {
-    const dosage = (weight / 10) * 30;
-    return Math.round(dosage * 10) / 10;
-}
-
-function validateInput(weight) {
-    if (weight === '' || weight === null || weight === undefined) {
-        return {
-            isValid: false,
-            error: 'Por favor, informe seu peso.'
-        };
-    }
-
-    const weightNum = parseFloat(weight);
-
-    if (isNaN(weightNum)) {
-        return {
-            isValid: false,
-            error: 'Por favor, informe um número válido.'
-        };
-    }
-
-    if (weightNum <= 0) {
-        return {
-            isValid: false,
-            error: 'O peso deve ser maior que zero.'
-        };
-    }
-
-    if (weightNum < MIN_WEIGHT) {
-        return {
-            isValid: false,
-            error: `O peso mínimo é ${MIN_WEIGHT} kg.`
-        };
-    }
-
-    if (weightNum > MAX_WEIGHT) {
-        return {
-            isValid: true,
-            error: null,
-            warning: `Peso acima de ${MAX_WEIGHT} kg. Verifique se o valor está correto.`
-        };
-    }
-
-    return {
-        isValid: true,
-        error: null
-    };
-}
+const calculatorForm = { addEventListener(type, handler) {
+    if (type === 'submit') this.submit = handler;
+} };
+const weightInput = { value: '' };
+const classList = { add() {}, remove() {} };
+const resultContainer = { classList };
+const resultText = { classList, textContent: '', appendChild(child) {
+    this.textContent += child.textContent;
+} };
+const elements = {
+    'calculator-form': calculatorForm,
+    'weight-input': weightInput,
+    'result-container': resultContainer,
+    'result-text': resultText
+};
+const scriptPath = path.join(__dirname, '..', 'script.js');
+const script = readFileSync(scriptPath, 'utf8');
+const { mlToCups, formatCups, formatResult, calculateDosage, validateInput } = runInNewContext(
+    script + '\n({ mlToCups, formatCups, formatResult, calculateDosage, validateInput })',
+    { document: {
+        getElementById(id) { return elements[id]; },
+        createElement() { return { style: {} }; }
+    } },
+    { filename: scriptPath }
+);
 
 // Test runner
 let testsRun = 0;
@@ -423,6 +344,13 @@ test('Integration: Large weight flow', () => {
 });
 
 // Summary
+
+test('Integration: Overflowing weight shows a validation error', () => {
+    weightInput.value = '1e308';
+    calculatorForm.submit({ preventDefault() {} });
+    assert.strictEqual(resultText.textContent, 'Por favor, informe um número válido.');
+});
+
 console.log('\n=== Test Summary ===\n');
 console.log(`Tests run: ${testsRun}`);
 console.log(`Tests passed: ${testsPassed}`);
